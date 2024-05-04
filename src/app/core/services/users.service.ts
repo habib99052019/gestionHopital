@@ -18,7 +18,7 @@ export class UsersService {
   //   return this.http.delete("http://localhost:8081/users/deleteUser/"+id)
   // }
 
-  // updateUser(id : any , data : any){
-  //   return this.http.put("http://localhost:8081/users/updateUser/"+id , data)
-  // }
+  updateUser(id : any , data : any){
+    return this.http.put(`${this.url}/users/updateUser/${id}` , data)
+  }
 }

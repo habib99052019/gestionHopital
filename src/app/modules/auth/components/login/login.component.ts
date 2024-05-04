@@ -29,7 +29,17 @@ export class LoginComponent implements OnInit {
     this.authService.loginService(obj).subscribe(res=>{
       console.log(res);
       localStorage.setItem("token" , res.token)
-      this.router.navigateByUrl("/liste-user")
+      this.authService.userLoggedDetails.id = res.id
+      this.authService.userLoggedDetails.role = res.role
+      if(res.role === "SuperAdmin"){
+        this.router.navigateByUrl("/liste-user")
+      }else if(res.role === "Manager"){
+        alert("manager medecin role")
+      }else if(res.role === "Admin"){
+        alert("admin medecin role")
+      }else if(res.role === "User"){
+        alert("user role")
+      }
       
     },err => {
       Swal.fire({

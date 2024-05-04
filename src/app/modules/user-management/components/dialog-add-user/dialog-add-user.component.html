@@ -1,10 +1,10 @@
-<div class="w-100 title-dialog">
+<div class="w-100 title-dialog" *ngIf="!authService.openUpdate">
     <H2>Ajouter un utilisateur</H2>
     <hr>
 </div>
 
 
-<div mat-dialog-content class="dialog-user">
+<div mat-dialog-content class="dialog-user" *ngIf="!authService.openUpdate">
     <form [formGroup]="userForm">
         <div class="row mb-1">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-xs-3 mb-sm-3">
@@ -12,7 +12,7 @@
                     <div class="col">
                         <mat-form-field appearance="outline">
                             <mat-label>Identifiant</mat-label>
-                            <input formControlName="userName" matInput placeholder="Identifiant">
+                            <input formControlName="username" matInput placeholder="Identifiant">
                         </mat-form-field>
                     </div>
                     <div class="col">
@@ -26,13 +26,13 @@
                     <div class="col">
                         <mat-form-field appearance="outline">
                             <mat-label>Prénom</mat-label>
-                            <input formControlName="firstName" matInput placeholder="Prénom">
+                            <input formControlName="firstname" matInput placeholder="Prénom">
                         </mat-form-field>
                     </div>
                     <div class="col">
                         <mat-form-field appearance="outline">
                             <mat-label>Nom</mat-label>
-                            <input formControlName="lastName" matInput placeholder="Nom">
+                            <input formControlName="lastame" matInput placeholder="Nom">
                         </mat-form-field>
                     </div>
                 </div>
@@ -53,6 +53,18 @@
                 <div class="row">
                     <div class="col">
                         <div class="btn-radio-dialog">
+                            <mat-label>Status </mat-label>
+                            <mat-radio-group formControlName="activeString" aria-label="Select an option">
+                                <mat-radio-button value="1">Activer</mat-radio-button>
+                                <mat-radio-button value="0">Désactiver</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-radio-dialog">
                             <mat-label>Role </mat-label>
                             <mat-radio-group formControlName="role" aria-label="Select an option">
                                 <mat-radio-button value="Admin"> Admin</mat-radio-button>
@@ -70,6 +82,91 @@
 
     <div class="row dialog-action">
         <button mat-raised-button class="btn-save btn-dialog-action" (click)="onSubmit()" color="primary">Ajout</button>
+        <button mat-raised-button class="btn-cancel btn-dialog-action" color="warn" mat-dialog-close>Annuler</button>
+    </div>
+</div>
+
+<div class="w-100 title-dialog" *ngIf="authService.openUpdate">
+    <H2>Modifier un utilisateur</H2>
+    <hr>
+</div>
+<div mat-dialog-content class="dialog-user" *ngIf="authService.openUpdate">
+    <form [formGroup]="userForm">
+        <div class="row mb-1">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-xs-3 mb-sm-3">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Identifiant</mat-label>
+                            <input formControlName="username" matInput placeholder="Identifiant">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Mot de passe</mat-label>
+                            <input type="password" formControlName="password" matInput placeholder="Mot de passe">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Prénom</mat-label>
+                            <input formControlName="firstname" matInput placeholder="Prénom">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nom</mat-label>
+                            <input formControlName="lastame" matInput placeholder="Nom">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input formControlName="email" matInput placeholder="Email">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Téléphone</mat-label>
+                            <input formControlName="phoneNumber" matInput placeholder="Téléphone">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-radio-dialog">
+                            <mat-label>Status </mat-label>
+                            <mat-radio-group formControlName="activeString" aria-label="Select an option">
+                                <mat-radio-button value="1">Activer</mat-radio-button>
+                                <mat-radio-button value="0">Désactiver</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-radio-dialog">
+                            <mat-label>Role </mat-label>
+                            <mat-radio-group formControlName="role" aria-label="Select an option">
+                                <mat-radio-button value="Admin"> Admin</mat-radio-button>
+                                <mat-radio-button value="User"> User</mat-radio-button>
+                                <mat-radio-button value="SuperAdmin"> SuperAdmin</mat-radio-button>
+                                <mat-radio-button value="Manager"> Manager</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row dialog-action">
+        <button mat-raised-button class="btn-save btn-dialog-action" (click)="onSubmit()" color="primary">Update</button>
         <button mat-raised-button class="btn-cancel btn-dialog-action" color="warn" mat-dialog-close>Annuler</button>
     </div>
 </div>

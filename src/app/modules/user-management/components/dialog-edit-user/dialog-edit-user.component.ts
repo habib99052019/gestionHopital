@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UsersService } from 'src/app/core/services/users.service';
 import Swal from 'sweetalert2';
@@ -17,21 +17,80 @@ export class DialogEditUserComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogEditUserComponent>
   ) { }
 
-  userForm!: FormGroup;
-  
+  userForm = this.formBuilder.group({
+    // username: new FormControl('lll', Validators.required),
+    firstname: ['', Validators.required],
+    lastname: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    phoneNumber: ['', Validators.required],
+    role: ['Admin', Validators.required],
+    speciality: ['a', [Validators.required]],
+    grade: ['a', [Validators.required]],
+    activeString: ['0', [Validators.required]],
+  });
+
   ngOnInit(): void {
-    this.userForm = this.formBuilder.group({
-      id: [this.data.id],
-      firstName: [this.data.firstName, Validators.required],
-      lastName: [this.data.lastName, Validators.required],
-      email: [this.data.email, [Validators.required, Validators.email]],
-      phoneNumber: [this.data.phoneNumber, Validators.required],
-      role: [this.data.role],
-      password: [this.data.password]
-    });
+
+    this.loadData()
+  }
+
+  loadData() {
+
+
+    this.userForm.setValue({
+      email: this.data.email + "fdsd",
+      phoneNumber: this.data.phoneNumber,
+      role: this.data.role,
+      firstname: this.data.firstname,
+      lastname: this.data.lastname,
+      speciality: this.data.speciality+"d",
+      grade: this.data.grade+"dd",
+      activeString: this.data.is_locked === false ? "0" : "1"
+    })
+
   }
 
   onSubmit() {
+    var request: any = this.userForm.value
+    var active = this.userForm.value.activeString === "0" ? false : true
+
+    request.is_Locked = active
+
+    console.log(this.userForm.value)
+
+    if (this.userForm.valid) {
+      this.userService.updateUser(this.data.id, request).subscribe(res => {
+        Swal.fire({
+          title: 'Succès !',
+          text: 'L\'utilisateur a été modifié avec succès.',
+          icon: 'success',
+          timer: 4000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        }).then(() => {
+          this.dialogRef.close()
+        })
+      }, error => {
+        Swal.fire({
+          title: 'Erreur !',
+          text: "quelque chose s'est mal passé.",
+          icon: 'error',
+          timer: 4000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        });
+      })
+    } else {
+      Swal.fire({
+        title: 'Erreur !',
+        text: 'Veuillez remplir tous les champs requis correctement.',
+        icon: 'error',
+        timer: 4000,
+        timerProgressBar: true,
+        showConfirmButton: false
+      })
+    }
+
     // this.userService.updateUser(this.data.id , this.userForm.value).subscribe(res=>{
     //   Swal.fire({
     //     title: 'Succès !',

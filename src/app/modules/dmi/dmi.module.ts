@@ -22,6 +22,9 @@ import { ButtonModule } from 'primeng/button';
 import { DmiRoutingModule } from './dmi.routing';
 import { ConsultationComponent } from './consultation/consultation.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ConsultationsListComponent } from './consultations-list/consultations-list.component';
+import { AdmissionsListComponent } from './admissions-list/admissions-list.component';
+import { AdmissionComponent } from './admission/admission.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { MatSelectModule } from '@angular/material/select';
     GestionDmiComponent,
     DecisionsDmiComponent,
     ConsultationComponent,
+    ConsultationsListComponent,
+    AdmissionsListComponent,
+    AdmissionComponent,
   ],
   imports: [
     CommonModule,

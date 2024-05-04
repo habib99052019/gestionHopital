@@ -5,6 +5,7 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
 import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 import { UsersService } from 'src/app/core/services/users.service';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-liste-user',
@@ -17,7 +18,8 @@ export class ListeUserComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authService:AuthService
   ) { }
 
   ngOnInit(): void {
@@ -35,14 +37,23 @@ export class ListeUserComponent implements OnInit {
 
 
   openDialogAddUser() {
-    const dialogRef = this.dialog.open(DialogAddUserComponent, {
-    });
+    const dialogRef = this.dialog.open(DialogAddUserComponent,{});
+    this.authService.openUpdate = false
     dialogRef.afterClosed().subscribe(result => {
+      
       this.getUsers()
     });
   }
 
   openDialogEditUser(data: any) {
+    
+    const dialogRef = this.dialog.open(DialogEditUserComponent, {
+      data:data
+    });
+    this.authService.openUpdate = true
+    dialogRef.afterClosed().subscribe(result => {
+      this.getUsers()
+    });
     //   const dialogRef = this.dialog.open(DialogEditUserComponent, {
     //     data: data
     //   });
@@ -56,6 +67,16 @@ export class ListeUserComponent implements OnInit {
   //     maxHeight: '80vh'
   //   });
   // }
+
+  openDialogEdit(user:any) {
+    const dialogRef = this.dialog.open(DialogEditUserComponent, {
+      data:user
+    });
+    this.authService.openUpdate = true
+    dialogRef.afterClosed().subscribe(result => {
+      this.getUsers()
+    })
+  }
 
   delete(item: any) {
     Swal.fire({
@@ -80,6 +101,8 @@ export class ListeUserComponent implements OnInit {
       }
     });
   }
+
+
 
 
 }

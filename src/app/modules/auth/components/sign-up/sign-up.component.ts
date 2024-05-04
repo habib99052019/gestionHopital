@@ -12,9 +12,11 @@ export class SignUpComponent implements OnInit {
 
   myRegisterForm: FormGroup;
 
+
+
   constructor(
     private fb: FormBuilder,
-    private authSerrvice: AuthService,
+    public authSerrvice: AuthService,
     private router: Router
 
   ) { }
